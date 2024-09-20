@@ -1,0 +1,11 @@
+parameters:
+    level: 8
+    paths:
+        - src/
+
+    excludePaths:
+        # Makes PHPStan crash
+        - 'src/DependencyInjection/SyliusRecommendationsAiExtension.php'
+
+        # Test dependencies
+        - 'tests/Application/**/*'

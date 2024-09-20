@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Guiziweb\SyliusRecommendationsAiPlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations}'
+
+    Guiziweb\SyliusRecommendationsAiPlugin\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
+
