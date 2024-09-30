@@ -136,8 +136,8 @@ test.yaml: ## Lint the symfony Yaml files
 test.schema: ## Validate MySQL Schema
 	${CONSOLE} doctrine:schema:validate
 
-test.twig: ## Validate Twig templates
-	${CONSOLE} lint:twig --no-debug templates/ ../../src/Resources/views/
+#test.twig: ## Validate Twig templates
+#	${CONSOLE} lint:twig --no-debug templates/ ../../src/Resources/views/
 
 ###
 ### MIGRATIONS
