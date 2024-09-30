@@ -162,8 +162,17 @@ doctrine.migration.migrate: ## Run migrations
 sylius: dependencies sylius.database sylius.fixtures sylius.assets messenger.setup ## Install Sylius
 .PHONY: sylius
 
-google.create-product: ## Setup the database
-	${CONSOLE} create-products
+products:
+	${CONSOLE} sync:google-products FASHION_WEB -vvv
+
+orders:
+	${CONSOLE} create-orders FASHION_WEB
+
+m-c:
+	${CONSOLE}  messenger:consume -vvv
+
+d-r:
+	${CONSOLE} debug:router --show-controllers
 
 sylius.database: ## Setup the database
 	${CONSOLE} doctrine:database:drop --if-exists --force

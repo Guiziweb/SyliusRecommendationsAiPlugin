@@ -1,0 +1,7 @@
+framework:
+  messenger:
+    transports:
+      async: '%env(MESSENGER_TRANSPORT_DSN)%' # Définit un transport asynchrone
+    routing:
+      'Guiziweb\SyliusRecommendationsAiPlugin\Message\UserEventMessage': async
+      'Guiziweb\SyliusRecommendationsAiPlugin\Message\UserEventPurchaseCompleteMessage': async

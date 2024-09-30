@@ -3,7 +3,6 @@
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
     "description": "GuiziwebSyliusRecommendationsAiPlugin",
-    "license": "MIT",
     "require": {
         "php": "^8.2",
         "sylius/sylius": ">=1.12 <1.14",
@@ -39,8 +38,8 @@
         "symfony": {
             "docker": false,
             "endpoint": [
-                                "https://api.github.com/repos/monsieurbiz/symfony-recipes/contents/index.json?ref=flex/master",
-                                "flex://defaults"
+                "https://api.github.com/repos/Guiziweb/symfony-recipes/contents/index.json?ref=flex/main",
+                "flex://defaults"
             ]
         },
         "branch-alias": {

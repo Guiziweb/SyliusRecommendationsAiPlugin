@@ -1,3 +1,8 @@
+parameters:
+    google_project_id: '%env(GOOGLE_PROJECT_ID)%'
+    google_location: '%env(GOOGLE_LOCATION)%'
+    google_catalog: '%env(GOOGLE_CATALOG)%'
+    google_branch: '%env(GOOGLE_BRANCH)%'
 services:
     _defaults:
         autowire: true
@@ -8,7 +13,30 @@ services:
         resource: '../../*'
         exclude: '../../{Entity,Migrations}'
 
-    Guiziweb\SyliusRecommendationsAiPlugin\Controller\:
-        resource: '../../Controller'
-        tags: [ 'controller.service_arguments' ]
+    Guiziweb\SyliusRecommendationsAiPlugin\Service\RequestFormatterService:
+        arguments:
+            $projectId: '%google_project_id%'
+            $location: '%google_location%'
+            $catalog: '%google_catalog%'
+            $branch: '%google_branch%'
 
+    Guiziweb\SyliusRecommendationsAiPlugin\EventListener\ProductViewListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onProductView }
+
+    Guiziweb\SyliusRecommendationsAiPlugin\EventListener\AddItemCartListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.order_item.post_add, method: onAddItemToCart }
+            - { name: kernel.event_listener, event: sylius.order_item.pre_remove, method: onRemoveItemToCart }
+
+    Guiziweb\SyliusRecommendationsAiPlugin\EventListener\OrderCompleteListener:
+        tags:
+            - { name: kernel.event_listener, event: sylius.order.post_complete, method: onOrderPostComplete }
+
+    Guiziweb\SyliusRecommendationsAiPlugin\MessageHandler\UserEventMessageHandler:
+        tags:
+            - { name: 'messenger.message_handler', bus: 'sylius.command_bus' }
+
+    Guiziweb\SyliusRecommendationsAiPlugin\MessageHandler\UserEventPurchaseCompleteMessageHandler:
+        tags:
+            - { name: 'messenger.message_handler', bus: 'sylius.command_bus' }

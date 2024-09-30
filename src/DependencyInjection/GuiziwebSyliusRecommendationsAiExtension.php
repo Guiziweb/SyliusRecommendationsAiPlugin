@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * @SuppressWarnings(PHPMD.LongClassName)
@@ -34,11 +35,16 @@ final class GuiziwebSyliusRecommendationsAiExtension extends Extension implement
         $loader->load('services.yaml');
     }
 
-
     public function prepend(ContainerBuilder $container): void
     {
         $this->prependDoctrineMigrations($container);
+
+        $config = Yaml::parseFile(__DIR__.'/../Resources/config/config.yaml');
+
+        $container->prependExtensionConfig('framework', $config['framework']);
+
     }
+
 
     protected function getMigrationsNamespace(): string
     {
@@ -50,6 +56,9 @@ final class GuiziwebSyliusRecommendationsAiExtension extends Extension implement
         return '@GuiziwebSyliusRecommendationsAiPlugin/Migrations';
     }
 
+    /**
+     * @return string[]
+     */
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
         return [

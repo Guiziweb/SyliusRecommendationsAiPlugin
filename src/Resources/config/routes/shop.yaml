@@ -1,0 +1,12 @@
+test:
+  path: /guizi/{count}
+  methods: [GET]
+  defaults:
+    _controller: Guiziweb\SyliusRecommendationsAiPlugin\Controller\RecommendationController::indexAction
+    _sylius:
+      template: $template,
+      repository:
+        method: findLatestByChannel
+        arguments:
+          - "expr:service('sylius.context.customer').getCustomer()"
+          - '!!int $count'
