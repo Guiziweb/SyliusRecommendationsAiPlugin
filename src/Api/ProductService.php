@@ -25,7 +25,6 @@ use Guiziweb\SyliusRecommendationsAiPlugin\Service\ProductFormatterService;
 use Guiziweb\SyliusRecommendationsAiPlugin\Service\RequestFormatterService;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ProductService
 {
@@ -40,7 +39,7 @@ class ProductService
         $this->productServiceClient = new ProductServiceClient();
     }
 
-    public function createOrUpdateGoogleProduct(ProductInterface $product, ChannelInterface $channel, OutputInterface $output): void
+    public function createOrUpdateGoogleProduct(ProductInterface $product, ChannelInterface $channel): void
     {
         if (null === $product->getCode()) {
             return;
@@ -48,14 +47,10 @@ class ProductService
 
         $productPath = $this->requestFormatterService->formatProductPath($product->getCode());
 
-        try {
-            $googleProduct = $this->getGoogleProduct($productPath) ?? $this->updateGoogleProduct($product, $channel);
+        $googleProduct = $this->getGoogleProduct($productPath) ?? $this->updateGoogleProduct($product, $channel);
 
-            if ($googleProduct) {
-                $this->syncProducts($googleProduct, $product, $channel);
-            }
-        } catch (Exception $exception) {
-            $output->writeln(\sprintf('<error>%s</error>', $exception->getMessage()));
+        if ($googleProduct) {
+            $this->syncProducts($googleProduct, $product, $channel);
         }
     }
 

@@ -166,7 +166,7 @@ products:
 	${CONSOLE} sync:google-products FASHION_WEB -vvv
 
 orders:
-	${CONSOLE} create-orders FASHION_WEB
+	${CONSOLE} sync:google-orders FASHION_WEB
 
 m-c:
 	${CONSOLE}  messenger:consume -vvv

@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Guiziweb\SyliusRecommendationsAiPlugin\Command;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Guiziweb\SyliusRecommendationsAiPlugin\Api\ProductService;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -70,7 +71,11 @@ class SyncProductsCommand extends Command
 
         foreach ($products as $product) {
             if ($product instanceof ProductInterface) {
-                $this->catalogSyncService->createOrUpdateGoogleProduct($product, $channel, $output);
+                try {
+                    $this->catalogSyncService->createOrUpdateGoogleProduct($product, $channel);
+                } catch (Exception $exception) {
+                    $output->writeln(\sprintf('<error>%s</error>', ($exception->getMessage())));
+                }
             }
         }
 

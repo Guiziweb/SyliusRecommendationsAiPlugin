@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Guiziweb\SyliusRecommendationsAiPlugin\Command;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Exception;
 use Google\ApiCore\OperationResponse;
 use Google\Cloud\Retail\V2\Client\UserEventServiceClient;
 use Google\Cloud\Retail\V2\ImportUserEventsRequest;
@@ -119,23 +120,28 @@ class SyncOrderCommand extends Command
 
         $importRequest->setInputConfig($inputConfig);
 
-        /** @var OperationResponse $operation */
-        $operation = $this->userEventServiceClient->importUserEvents($importRequest);
+        try {
+            /** @var OperationResponse $operation */
+            $operation = $this->userEventServiceClient->importUserEvents($importRequest);
+            if ($operation->isDone()) {
+                /** @var ImportUserEventsResponse $result */
+                $result = $operation->getResult();
 
-        if ($operation->isDone()) {
-            /** @var ImportUserEventsResponse $result */
-            $result = $operation->getResult();
+                $importSummary = $result->getImportSummary();
 
-            $importSummary = $result->getImportSummary();
-
-            if ($importSummary instanceof UserEventImportSummary) {
-                $output->writeln('Order imported joined event :' . $importSummary->getJoinedEventsCount());
-                $output->writeln('Order imported unjoined event :' . $importSummary->getUnjoinedEventsCount());
+                if ($importSummary instanceof UserEventImportSummary) {
+                    $output->writeln('Order imported joined event :' . $importSummary->getJoinedEventsCount());
+                    $output->writeln('Order imported unjoined event :' . $importSummary->getUnjoinedEventsCount());
+                }
             }
-        }
 
-        if ($operation->getError()) {
-            $output->writeln($operation->getError()->getMessage());
+            if ($operation->getError()) {
+                $output->writeln($operation->getError()->getMessage());
+            }
+        } catch (Exception $exception) {
+            $output->writeln(\sprintf('<error>%s</error>', ($exception->getMessage())));
+
+            return Command::FAILURE;
         }
 
         return Command::SUCCESS;
