@@ -3,6 +3,7 @@
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
     "description": "GuiziwebSyliusRecommendationsAiPlugin",
+    "license": "proprietary",
     "require": {
         "php": "^8.2",
         "sylius/sylius": ">=1.12 <1.14",
