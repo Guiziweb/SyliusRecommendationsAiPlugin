@@ -11,10 +11,9 @@ declare(strict_types=1);
 
 namespace Guiziweb\SyliusRecommendationsAiPlugin\Service;
 
-use App\Entity\Payment\Payment;
 use Google\Cloud\Retail\V2\PurchaseTransaction;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Payment\Model\PaymentInterface;
+use Sylius\Component\Core\Model\PaymentInterface;
 
 class TransactionFormatterService
 {
@@ -27,13 +26,16 @@ class TransactionFormatterService
     {
         $purchaseTransaction = new PurchaseTransaction();
 
-        $purchaseTransaction->setCurrencyCode($payment->getCurrencyCode());
+        $currencyCode = $order->getCurrencyCode();
+
+        if ($currencyCode) {
+            $purchaseTransaction->setCurrencyCode($currencyCode);
+        }
 
         $purchaseTransaction->setId($payment->getId());
         $purchaseTransaction->setRevenue($payment->getAmount() / 100);
         $purchaseTransaction->setTax(0);
         $purchaseTransaction->setCost(0);
-
 
         return $purchaseTransaction;
     }

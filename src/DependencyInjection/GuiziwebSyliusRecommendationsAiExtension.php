@@ -39,12 +39,10 @@ final class GuiziwebSyliusRecommendationsAiExtension extends Extension implement
     {
         $this->prependDoctrineMigrations($container);
 
-        $config = Yaml::parseFile(__DIR__.'/../Resources/config/config.yaml');
+        $config = Yaml::parseFile(__DIR__ . '/../Resources/config/config.yaml');
 
         $container->prependExtensionConfig('framework', $config['framework']);
-
     }
-
 
     protected function getMigrationsNamespace(): string
     {

@@ -61,12 +61,10 @@ class EventFormatterService
         $userEvent = new UserEvent();
 
         if (EventService::PURCHASE_COMPLETE === $eventName && $order instanceof OrderInterface) {
-
             $payment = $order->getLastPayment();
 
             if ($payment instanceof PaymentInterface) {
-
-                $transaction = $this->transactionFormatterService->generateGoogleTransactionFromOrder($order, $order->getLastPayment());
+                $transaction = $this->transactionFormatterService->generateGoogleTransactionFromOrder($order, $payment);
                 $userEvent->setPurchaseTransaction($transaction);
             }
 

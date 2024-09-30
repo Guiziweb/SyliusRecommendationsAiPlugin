@@ -79,10 +79,11 @@ class ProductService
 
         if (!$googleProductObject->equals($syliusProductObject)) {
             $this->updateGoogleProduct($product, $channel);
+
+            return;
         }
-        else {
-            echo "Product {$product->getCode()} is already synced to catalog." . \PHP_EOL;
-        }
+
+        echo "Product {$product->getCode()} is already synced to catalog." . \PHP_EOL;
     }
 
     private function updateGoogleProduct(ProductInterface $product, ChannelInterface $channel): ?Product
