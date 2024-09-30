@@ -6,7 +6,7 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
-        "sylius/sylius": ">=1.12 <1.14",
+        "sylius/sylius": ">=1.13 <1.14",
         "google/cloud-retail": "^2.0"
     },
     "require-dev": {
