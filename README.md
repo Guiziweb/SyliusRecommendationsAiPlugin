@@ -1,6 +1,10 @@
 
 # Documentation du Plugin Sylius Vertex AI Search for Retail
 
+Installation : 
+```bash
+composer require guiziweb/sylius-recommendations-ai-plugin
+```
 ## Introduction
 
 Ce plugin permet d'intégrer **Vertex AI Search for Retail** avec votre boutique Sylius, en synchronisant les commandes historiques et le catalogue tout en générant des événements utilisateur pour améliorer l'expérience d'achat.
