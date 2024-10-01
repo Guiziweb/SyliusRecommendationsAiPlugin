@@ -5,6 +5,13 @@ Installation :
 ```bash
 composer require guiziweb/sylius-recommendations-ai-plugin
 ```
+Use recipes :
+
+```bash
+composer config --no-plugins --json extra.symfony.endpoint '["https://api.github.com/repos/Guiziweb/symfony-recipes/contents/index.json?ref=flex/main","flex://defaults"]'
+```
+
+
 ## Introduction
 
 Ce plugin permet d'intégrer **Vertex AI Search for Retail** avec votre boutique Sylius, en synchronisant les commandes historiques et le catalogue tout en générant des événements utilisateur pour améliorer l'expérience d'achat.
